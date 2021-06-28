@@ -21,7 +21,7 @@
 					"name": "DerivedColumn"
 				}
 			],
-			"script": "source(output(\n\t\twebClientID as string,\n\t\tVisitDateTime as string,\n\t\tProductID as string,\n\t\tUserID as string,\n\t\tActivity as string,\n\t\tBrowser as string,\n\t\tOS as string,\n\t\tCity as string,\n\t\tCountry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> SourceData\nSourceData filter(not(isNull(UserID))) ~> FilterData\nFilterData derive(VisitDateTime = \r\niif(length(VisitDateTime)==19,toTimestamp(toLong(toString(VisitDateTime)),'yyyy-MM-dd HH:mm:ss')\r\n,iif(length(VisitDateTime)==23,toTimestamp (VisitDateTime,'yyyy-MM-dd HH:mm:ss'),null))) ~> DerivedColumn"
+			"script": "source(output(\n\t\twebClientID as string,\n\t\tVisitDateTime as string,\n\t\tProductID as string,\n\t\tUserID as string,\n\t\tActivity as string,\n\t\tBrowser as string,\n\t\tOS as string,\n\t\tCity as string,\n\t\tCountry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> SourceData\nSourceData filter(not(isNull(UserID))) ~> FilterData\nFilterData derive(VisitDateTime = iif(length(VisitDateTime)==19,toTimestamp(toLong(toString(VisitDateTime)),'yyyy-MM-dd HH:mm:ss')\r\n,toTimestamp (VisitDateTime,'yyyy-MM-dd HH:mm:ss'))) ~> DerivedColumn"
 		}
 	}
 }
