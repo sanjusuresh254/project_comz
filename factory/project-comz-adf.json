@@ -1,0 +1,9 @@
+{
+	"name": "project-comz-adf",
+	"location": "uaenorth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "89256b3f-73d4-4716-a182-1174a8faa30c",
+		"tenantId": "4e931f05-4984-4689-8e18-586c9c95ced6"
+	}
+}
