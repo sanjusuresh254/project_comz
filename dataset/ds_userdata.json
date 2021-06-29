@@ -1,0 +1,36 @@
+{
+	"name": "ds_userdata",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_blobstorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "userTable.csv",
+				"container": "inputfile"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "UserID",
+				"type": "String"
+			},
+			{
+				"name": "Signup Date",
+				"type": "String"
+			},
+			{
+				"name": "User Segment",
+				"type": "String"
+			}
+		]
+	}
+}

@@ -1,0 +1,23 @@
+{
+	"name": "ds_userdatagen2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_gen2sink",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "userdata",
+				"fileSystem": "cleaneddata"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
