@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "project-comz-adf"
+		},
+		"ls_blobstorage_connectionString": {
+			"value": ""
+		},
+		"ls_gen2sink_accountKey": {
+			"value": ""
+		},
+		"ls_gen2sink_properties_typeProperties_url": {
+			"value": "https://saprojectcomzgen2.dfs.core.windows.net"
+		}
+	}
+}
