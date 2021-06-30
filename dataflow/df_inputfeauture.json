@@ -1,0 +1,20 @@
+{
+	"name": "df_inputfeauture",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_userdatagen2",
+						"type": "DatasetReference"
+					},
+					"name": "sourceipfeature"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> sourceipfeature"
+		}
+	}
+}
