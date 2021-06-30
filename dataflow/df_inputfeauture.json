@@ -16,12 +16,22 @@
 						"referenceName": "ds_cleanedvisitorloggen2",
 						"type": "DatasetReference"
 					},
-					"name": "source"
+					"name": "vistorsource"
 				}
 			],
 			"sinks": [],
-			"transformations": [],
-			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> sourceipfeature\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source"
+			"transformations": [
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "Aggregate1"
+				},
+				{
+					"name": "Filter1"
+				}
+			],
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> sourceipfeature\nsource(output(\n\t\twebClientID as string,\n\t\tVisitDateTime as date,\n\t\tProductID as string,\n\t\tUserID as string,\n\t\tActivity as string,\n\t\tBrowser as string,\n\t\tOS as string,\n\t\tCity as string,\n\t\tCountry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> vistorsource\nvistorsource select(mapColumn(\n\t\tVisitDateTime,\n\t\tUserID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nFilter1 aggregate(groupBy(UserID),\n\tVisitDateTime = countDistinct(VisitDateTime)) ~> Aggregate1\nSelect1 filter(VisitDateTime>toDate(\"2018-05-20\")) ~> Filter1"
 		}
 	}
 }
