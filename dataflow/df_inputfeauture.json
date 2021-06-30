@@ -10,11 +10,18 @@
 						"type": "DatasetReference"
 					},
 					"name": "sourceipfeature"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_cleanedvisitorloggen2",
+						"type": "DatasetReference"
+					},
+					"name": "source"
 				}
 			],
 			"sinks": [],
 			"transformations": [],
-			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> sourceipfeature"
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> sourceipfeature\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source"
 		}
 	}
 }

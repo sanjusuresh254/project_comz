@@ -27,9 +27,12 @@
 				},
 				{
 					"name": "DerivedColumn"
+				},
+				{
+					"name": "Filter1"
 				}
 			],
-			"script": "source(output(\n\t\twebClientID as string,\n\t\tVisitDateTime as string,\n\t\tProductID as string,\n\t\tUserID as string,\n\t\tActivity as string,\n\t\tBrowser as string,\n\t\tOS as string,\n\t\tCity as string,\n\t\tCountry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> SourceData\nSourceData filter(not(isNull(UserID))) ~> FilterData\nFilterData derive(VisitDateTime = iif(length(VisitDateTime)==19,toTimestamp(toLong(substring(VisitDateTime,1,13)),'yyyy-MM-dd')\r\n,toTimestamp (VisitDateTime,'yyyy-MM-dd'))\r\n,\n\t\twebClientID = upper(trim(webClientID)),\n\t\tProductID = upper(trim(ProductID)),\n\t\tUserID = upper(trim(UserID)),\n\t\tActivity = upper(trim(Activity)),\n\t\tBrowser = upper(trim(Browser)),\n\t\tOS = upper(trim(OS)),\n\t\tCity = upper(trim(City)),\n\t\tCountry = upper(trim(Country))) ~> DerivedColumn\nDerivedColumn sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tumask: 0022,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sinkcleaneddata"
+			"script": "source(output(\n\t\twebClientID as string,\n\t\tVisitDateTime as string,\n\t\tProductID as string,\n\t\tUserID as string,\n\t\tActivity as string,\n\t\tBrowser as string,\n\t\tOS as string,\n\t\tCity as string,\n\t\tCountry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> SourceData\nSourceData filter(not(isNull(UserID))) ~> FilterData\nFilterData derive(VisitDateTime = iif(length(VisitDateTime)==19,toDate(toString(toTimestamp(toLong(substring(VisitDateTime,1,13)),'yyyy-MM-dd'))),toDate(VisitDateTime,'yyyy-MM-dd'))\r\n,\n\t\twebClientID = upper(trim(webClientID)),\n\t\tProductID = upper(trim(ProductID)),\n\t\tUserID = upper(trim(UserID)),\n\t\tActivity = upper(trim(Activity)),\n\t\tBrowser = upper(trim(Browser)),\n\t\tOS = upper(trim(OS)),\n\t\tCity = upper(trim(City)),\n\t\tCountry = upper(trim(Country))) ~> DerivedColumn\nDerivedColumn filter(between(toDate(toString(VisitDateTime)),toDate(\"2018-05-07\"),toDate(\"2018-05-27\"))) ~> Filter1\nFilter1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tumask: 0022,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sinkcleaneddata"
 		}
 	}
 }
