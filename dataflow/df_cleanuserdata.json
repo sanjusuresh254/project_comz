@@ -26,7 +26,7 @@
 					"name": "DerivedColumn"
 				}
 			],
-			"script": "source(output(\n\t\tUserID as string,\n\t\t{Signup Date} as string,\n\t\t{User Segment} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> sourceUserdata\nsourceUserdata derive(UserID = trim(upper(UserID)),\n\t\t{User Segment} = trim(upper({User Segment})),\n\t\t{Signup Date} = toTimestamp ({Signup Date},'yyyy-MM-dd')) ~> DerivedColumn\nDerivedColumn sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tumask: 0022,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink"
+			"script": "source(output(\n\t\tUserID as string,\n\t\t{Signup Date} as string,\n\t\t{User Segment} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> sourceUserdata\nsourceUserdata derive(UserID = trim(upper(UserID)),\n\t\t{User Segment} = trim(upper({User Segment})),\n\t\t{Signup Date} = toTimestamp ({Signup Date},'yyyy-MM-dd')) ~> DerivedColumn\nDerivedColumn sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\ttruncate: true,\n\tumask: 0022,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink"
 		}
 	}
 }
