@@ -1,0 +1,188 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "project-comz-adf"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/df_inputfeauture')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_userdatagen2",
+								"type": "DatasetReference"
+							},
+							"name": "sourceipfeature"
+						},
+						{
+							"dataset": {
+								"referenceName": "ds_cleanedvisitorloggen2",
+								"type": "DatasetReference"
+							},
+							"name": "vistorsource"
+						},
+						{
+							"dataset": {
+								"referenceName": "ds_cleanedvisitorloggen2",
+								"type": "DatasetReference"
+							},
+							"name": "sourcevisitor"
+						},
+						{
+							"dataset": {
+								"referenceName": "ds_cleanedvisitorloggen2",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						},
+						{
+							"dataset": {
+								"referenceName": "ds_cleanedvisitorloggen2",
+								"type": "DatasetReference"
+							},
+							"name": "source2"
+						},
+						{
+							"dataset": {
+								"referenceName": "ds_cleanedvisitorloggen2",
+								"type": "DatasetReference"
+							},
+							"name": "source3"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_finalop",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Select"
+						},
+						{
+							"name": "AggNoofdaysVisited7Days"
+						},
+						{
+							"name": "Filter"
+						},
+						{
+							"name": "Select2"
+						},
+						{
+							"name": "Filter2"
+						},
+						{
+							"name": "NoOfProductsViewed15Days"
+						},
+						{
+							"name": "DerivedColumn"
+						},
+						{
+							"name": "Select3"
+						},
+						{
+							"name": "Filter3"
+						},
+						{
+							"name": "Aggregate2"
+						},
+						{
+							"name": "Select4"
+						},
+						{
+							"name": "Aggregate3"
+						},
+						{
+							"name": "MostActiveOS"
+						},
+						{
+							"name": "Window1"
+						},
+						{
+							"name": "Filter4"
+						},
+						{
+							"name": "MostViewedproduct15Days"
+						},
+						{
+							"name": "Select7"
+						},
+						{
+							"name": "Window2"
+						},
+						{
+							"name": "Filter5"
+						},
+						{
+							"name": "Filter6"
+						},
+						{
+							"name": "RecentlyViewedProduct"
+						},
+						{
+							"name": "Lookup1"
+						},
+						{
+							"name": "Select9"
+						},
+						{
+							"name": "Lookup2"
+						},
+						{
+							"name": "Select10"
+						},
+						{
+							"name": "Lookup3"
+						},
+						{
+							"name": "Select11"
+						},
+						{
+							"name": "Lookup4"
+						},
+						{
+							"name": "Select12"
+						},
+						{
+							"name": "Lookup5"
+						},
+						{
+							"name": "SelectReqd"
+						},
+						{
+							"name": "Window3"
+						},
+						{
+							"name": "Filter7"
+						},
+						{
+							"name": "DerivedColumn1"
+						},
+						{
+							"name": "Sort1"
+						}
+					],
+					"script": "source(output(\n\t\tUserID as string,\n\t\t{Signup Date} as date,\n\t\t{User Segment} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> sourceipfeature\nsource(output(\n\t\twebClientID as string,\n\t\tVisitDateTime as date,\n\t\tProductID as string,\n\t\tUserID as string,\n\t\tActivity as string,\n\t\tBrowser as string,\n\t\tOS as string,\n\t\tCity as string,\n\t\tCountry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> vistorsource\nsource(output(\n\t\twebClientID as string,\n\t\tVisitDateTime as date,\n\t\tProductID as string,\n\t\tUserID as string,\n\t\tActivity as string,\n\t\tBrowser as string,\n\t\tOS as string,\n\t\tCity as string,\n\t\tCountry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> sourcevisitor\nsource(output(\n\t\twebClientID as string,\n\t\tVisitDateTime as date,\n\t\tProductID as string,\n\t\tUserID as string,\n\t\tActivity as string,\n\t\tBrowser as string,\n\t\tOS as string,\n\t\tCity as string,\n\t\tCountry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource(output(\n\t\twebClientID as string,\n\t\tVisitDateTime as timestamp,\n\t\tProductID as string,\n\t\tUserID as string,\n\t\tActivity as string,\n\t\tBrowser as string,\n\t\tOS as string,\n\t\tCity as string,\n\t\tCountry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source2\nsource(output(\n\t\twebClientID as string,\n\t\tVisitDateTime as date,\n\t\tProductID as string,\n\t\tUserID as string,\n\t\tActivity as string,\n\t\tBrowser as string,\n\t\tOS as string,\n\t\tCity as string,\n\t\tCountry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source3\nvistorsource select(mapColumn(\n\t\tVisitDateTime,\n\t\tUserID,\n\t\tActivity\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select\nFilter aggregate(groupBy(UserID),\n\tNo_of_days_Visited_7_Days = countDistinct(VisitDateTime),\n\t\tPageloads_last_7_days = sum(case(Activity==\"PAGELOAD\",1,0)),\n\t\tClicks_last_7_days = sum(case(Activity==\"CLICK\",1,0))) ~> AggNoofdaysVisited7Days\nSelect filter(VisitDateTime>toDate(\"2018-05-20\")) ~> Filter\nsourcevisitor select(mapColumn(\n\t\tVisitDateTime,\n\t\tProductID,\n\t\tUserID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select2\nSelect2 filter(VisitDateTime>toDate(\"2018-05-12\")) ~> Filter2\nFilter2 aggregate(groupBy(UserID),\n\tNo_Of_Products_Viewed_15_Days = countDistinct(ProductID)) ~> NoOfProductsViewed15Days\nsourceipfeature derive(User_Vintage = minus(toDate(\"2018-05-08\"), {Signup Date})) ~> DerivedColumn\nsource1 select(mapColumn(\n\t\tVisitDateTime,\n\t\tProductID,\n\t\tUserID,\n\t\tActivity\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select3\nSelect3 filter(VisitDateTime>toDate(\"2018-05-12\")&&Activity==\"PAGELOAD\") ~> Filter3\nFilter3 aggregate(groupBy(UserID,\n\t\tProductID),\n\tcountproducts = count(ProductID),\n\t\tmaxvisitdatatime = max(VisitDateTime)) ~> Aggregate2\nsource2 select(mapColumn(\n\t\tUserID,\n\t\tOS,\n\t\tActivity\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select4\nSelect4 aggregate(groupBy(UserID,\n\t\tOS),\n\tcountOS = count(OS)) ~> Aggregate3\nFilter7 select(mapColumn(\n\t\tUserID,\n\t\tMost_Active_OS = OS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> MostActiveOS\nAggregate2 window(over(UserID),\n\tdesc(countproducts, true),\n\tdesc(maxvisitdatatime, true),\n\trank = rowNumber()) ~> Window1\nWindow1 filter(rank==1) ~> Filter4\nFilter4 select(mapColumn(\n\t\tUserID,\n\t\tMost_Viewed_product_15_Days = ProductID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> MostViewedproduct15Days\nsource3 select(mapColumn(\n\t\tVisitDateTime,\n\t\tProductID,\n\t\tUserID,\n\t\tActivity\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select7\nFilter5 window(over(UserID),\n\tdesc(VisitDateTime, true),\n\tranks = rowNumber()) ~> Window2\nSelect7 filter(Activity==\"PAGELOAD\") ~> Filter5\nWindow2 filter(ranks==1) ~> Filter6\nFilter6 select(mapColumn(\n\t\tRecently_Viewed_Product = ProductID,\n\t\tUserID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RecentlyViewedProduct\nDerivedColumn, AggNoofdaysVisited7Days lookup(sourceipfeature@UserID == AggNoofdaysVisited7Days@UserID,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> Lookup1\nLookup1 select(mapColumn(\n\t\tMaster_userid = sourceipfeature@UserID,\n\t\tUser_Vintage,\n\t\tNo_of_days_Visited_7_Days,\n\t\tPageloads_last_7_days,\n\t\tClicks_last_7_days\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select9\nSelect9, NoOfProductsViewed15Days lookup(Master_userid == UserID,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> Lookup2\nLookup2 select(mapColumn(\n\t\tMaster_userid,\n\t\tUser_Vintage,\n\t\tNo_of_days_Visited_7_Days,\n\t\tPageloads_last_7_days,\n\t\tClicks_last_7_days,\n\t\tNo_Of_Products_Viewed_15_Days\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select10\nSelect10, MostViewedproduct15Days lookup(Master_userid == UserID,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> Lookup3\nLookup3 select(mapColumn(\n\t\tMaster_userid,\n\t\tUser_Vintage,\n\t\tNo_of_days_Visited_7_Days,\n\t\tPageloads_last_7_days,\n\t\tClicks_last_7_days,\n\t\tNo_Of_Products_Viewed_15_Days,\n\t\tMost_Viewed_product_15_Days\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select11\nSelect11, MostActiveOS lookup(Master_userid == UserID,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> Lookup4\nLookup4 select(mapColumn(\n\t\tMaster_userid,\n\t\tUser_Vintage,\n\t\tNo_of_days_Visited_7_Days,\n\t\tPageloads_last_7_days,\n\t\tClicks_last_7_days,\n\t\tNo_Of_Products_Viewed_15_Days,\n\t\tMost_Viewed_product_15_Days,\n\t\tMost_Active_OS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select12\nSelect12, RecentlyViewedProduct lookup(Master_userid == UserID,\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> Lookup5\nLookup5 select(mapColumn(\n\t\tUserID = Master_userid,\n\t\tNo_of_days_Visited_7_Days,\n\t\tNo_Of_Products_Viewed_15_Days,\n\t\tUser_Vintage,\n\t\tMost_Viewed_product_15_Days,\n\t\tMost_Active_OS,\n\t\tRecently_Viewed_Product,\n\t\tPageloads_last_7_days,\n\t\tClicks_last_7_days\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectReqd\nAggregate3 window(over(UserID),\n\tdesc(countOS, true),\n\trownumber = rowNumber()) ~> Window3\nWindow3 filter(rownumber==1) ~> Filter7\nSelectReqd derive(UserID = UserID,\n\t\tNo_of_days_Visited_7_Days = iif(isNull(No_of_days_Visited_7_Days),0,toInteger(No_of_days_Visited_7_Days)),\n\t\tNo_Of_Products_Viewed_15_Days = iif(isNull(No_Of_Products_Viewed_15_Days),0,toInteger(No_Of_Products_Viewed_15_Days)),\n\t\tUser_Vintage = User_Vintage,\n\t\tMost_Viewed_product_15_Days = iif(isNull(Most_Viewed_product_15_Days),\"Product101\",Most_Viewed_product_15_Days),\n\t\tMost_Active_OS = Most_Active_OS,\n\t\tRecently_Viewed_Product = iif(isNull(Recently_Viewed_Product), \"Product101\",Recently_Viewed_Product),\n\t\tPageloads_last_7_days = iif(isNull(Pageloads_last_7_days),0,toInteger(Pageloads_last_7_days)),\n\t\tClicks_last_7_days = iif(isNull(Clicks_last_7_days),0,toInteger(Clicks_last_7_days))) ~> DerivedColumn1\nDerivedColumn1 sort(asc(UserID, true),\n\tpartitionBy('hash', 1)) ~> Sort1\nSort1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['solution.csv'],\n\ttruncate: true,\n\tumask: 0022,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\tUserID,\n\t\tNo_of_days_Visited_7_Days,\n\t\tNo_Of_Products_Viewed_15_Days,\n\t\tUser_Vintage,\n\t\tMost_Viewed_product_15_Days,\n\t\tMost_Active_OS,\n\t\tRecently_Viewed_Product,\n\t\tPageloads_last_7_days,\n\t\tClicks_last_7_days\n\t),\n\tpartitionBy('hash', 1)) ~> sink1"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
